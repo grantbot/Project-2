@@ -89,32 +89,11 @@ def send_name():
         name.append(row._asdict())
     return json.dumps(name, cls=DecimalEncoder)
 
-# @app.route('/csv')
-# def send_csv():
-#     name = []
-#     rows = engine.execute("SELECT * FROM name").fetchall()
-#     for row in rows:
-#         # dategrid.append(lambda row: {c.name: str(getattr(row, c.name)) for c in row.__table__.columns})
-#         name.append(row._asdict())
-#     return json.dumps(name, cls=DecimalEncoder)
-
-# Route to render index.html template
-
-
 @app.route("/")
 def index():
 
     # Return template and data
     return render_template("index.html")
-
-# Route to render scatter.html template
-
-
-@app.route("/scatter")
-def scatter():
-
-    # Return template and data
-    return render_template("scatter.html")
 
 # Route to render grid.html template
 
@@ -134,13 +113,6 @@ def plotly():
     # Return template and data
     return render_template("plotly.html")
 
-# route to render map.html
-
-@app.route("/map")
-def map():
-
-    # Return template and data
-    return render_template("map.html")
 
 @app.route("/line")
 def line():
