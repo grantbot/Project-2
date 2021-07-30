@@ -9,23 +9,15 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import json
 import decimal
-
 from sqlalchemy.sql.sqltypes import VARCHAR
-
-
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, decimal.Decimal):
             return float(o)
         super(DecimalEncoder, self).default(o)
-
-
 # setup database
 engine = create_engine("postgresql://localhost/SpeedDating?user=postgres&password=postgres")
-
 Base = declarative_base()
-
-
 class Dategrid(Base):
     __tablename__ = 'dategrid'
     id = Column(Integer, primary_key=True)
@@ -35,7 +27,6 @@ class Dategrid(Base):
     field = Column(VARCHAR)
     race = Column(Integer)
     exphappy = Column(Integer)
-
 class Plotlydata(Base):
     __tablename__ = 'plotly'
     Participant_Number = Column(Integer, primary_key=True)
@@ -44,13 +35,10 @@ class Plotlydata(Base):
     race = Column(Integer)
     expectations_of_happiness = Column(Integer)
     Number_of_Dates = Column(Integer)
-
 Session = sessionmaker(bind=engine)
 session = Session()
-
 # Create an instance of Flask
 app = Flask(__name__)
-
 # data routes
 @app.route("/data")
 def send_data():
@@ -60,8 +48,6 @@ def send_data():
         # data.append([x for x in row])
         data.append(row._asdict())
     return json.dumps(data, cls=DecimalEncoder)
-
-
 @app.route("/dategrid")
 def send_dategrid():
     dategrid = []
@@ -70,7 +56,6 @@ def send_dategrid():
         # dategrid.append(lambda row: {c.name: str(getattr(row, c.name)) for c in row.__table__.columns})
         dategrid.append(row._asdict())
     return json.dumps(dategrid, cls=DecimalEncoder)
-
 @app.route("/plotlydata")
 def send_plotlydata():
     plotlydata = []
@@ -79,7 +64,6 @@ def send_plotlydata():
         # dategrid.append(lambda row: {c.name: str(getattr(row, c.name)) for c in row.__table__.columns})
         plotlydata.append(row._asdict())
     return json.dumps(plotlydata, cls=DecimalEncoder)
-
 @app.route("/name")
 def send_name():
     name = []
@@ -88,45 +72,36 @@ def send_name():
         # dategrid.append(lambda row: {c.name: str(getattr(row, c.name)) for c in row.__table__.columns})
         name.append(row._asdict())
     return json.dumps(name, cls=DecimalEncoder)
-
+# Route to render index.html template
 @app.route("/")
 def index():
-
     # Return template and data
     return render_template("index.html")
-
-# Route to render map.html template
-@app.route("/map")
-def map():
-
+# Route to render scatter.html template
+@app.route("/scatter")
+def scatter():
     # Return template and data
-    return render_template("map.html")
-
-
+    return render_template("scatter.html")
 # Route to render grid.html template
-
-
 @app.route("/grid")
 def grid():
-
     # Return template and data
     return render_template("grid.html")
-
 # Route to render plotly.html template
-
-
 @app.route("/plotly")
 def plotly():
-
     # Return template and data
     return render_template("plotly.html")
-
-
-@app.route("/line")
-def line():
-
+# route to render map.html
+@app.route("/map")
+def map():
     # Return template and data
-    return render_template("line.html")
-
+    return render_template("map.html")
+# Route to render stacked.html template
+# @app.route("/stacked")
+# def stacked():
+   # Return template and data
+#     return render_template("stacked.html")
 if __name__ == "__main__":
     app.run(debug=True)
+

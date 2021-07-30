@@ -10,7 +10,7 @@ var myMap = L.map("map", {
     maxZoom: 18,
     zoomOffset: -1,
     id: "mapbox/streets-v11",
-    accessToken: "pk.eyJ1IjoiZW5lcmd5cmUiLCJhIjoiY2txeHdnbDdsMHVoZjJycXlhcnY4cjNycSJ9.eN90KI501ibd-ac3GoBuqA"
+    accessToken: API_KEY
   }).addTo(myMap);
   
   // Define a markerSize function that will give each city a different radius based on its population
@@ -18,8 +18,8 @@ var myMap = L.map("map", {
     return Math.sqrt(population) / 40;
   }
   
-  // Each city object contains the city's name, location and population
-  var cities = [
+  // Each city object contains the state's and cities name, location and population
+  var states,cities = [
     {
         name: "New York",
         location: [40.7128, -74.0059],
